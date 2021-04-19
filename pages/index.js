@@ -1,11 +1,15 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import styled from '@emotion/styled';
+import Layout from '../components/layout/Layout';
+
+const Heading = styled.h1`
+    color: red;
+`;
 
 function Home() {
     return (
-        <div className={styles.container}>
-            <h1>Inicio</h1>
-        </div>
+        <Layout>
+            <Heading>Inicio</Heading>
+        </Layout>
     );
 }
 
