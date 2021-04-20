@@ -1,9 +1,10 @@
 import React from 'react';
-import Buscar from '../ui/Buscar';
-import Navegacion from './Navegacion';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import Buscar from '../ui/Buscar';
+import Navegacion from './Navegacion';
+import Boton from '../ui/Boton';
 
 const ContenedorHeader = styled.div`
     max-width: 1200px;
@@ -25,6 +26,8 @@ const Logo = styled.p`
 `;
 
 function Header() {
+    const usuario = false;
+
     return (
         <header
             css={css`
@@ -43,13 +46,34 @@ function Header() {
                     <Navegacion />
                 </div>
 
-                <div>
-                    <p>Hola, AJ</p>
+                <div
+                    css={css`
+                        display: flex;
+                        align-items: center;
+                    `}
+                >
+                    {usuario ? (
+                        <>
+                            <p
+                                css={css`
+                                    margin-right: 2rem;
+                                `}
+                            >
+                                Hola, AJ
+                            </p>
 
-                    <button type='button'>Cerrar Sesión</button>
-
-                    <Link href='/'>Iniciar Sesión</Link>
-                    <Link href='/'>Crear Cuenta</Link>
+                            <Boton bgColor='true'>Cerrar Sesión</Boton>
+                        </>
+                    ) : (
+                        <>
+                            <Link href='/'>
+                                <Boton>Iniciar Sesión</Boton>
+                            </Link>
+                            <Link href='/'>
+                                <Boton bgColor='true'>Crear Cuenta</Boton>
+                            </Link>
+                        </>
+                    )}
                 </div>
             </ContenedorHeader>
         </header>
