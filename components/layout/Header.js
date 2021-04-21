@@ -71,10 +71,10 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <Link href='/'>
+                            <Link href='/login'>
                                 <Boton>Iniciar Sesión</Boton>
                             </Link>
-                            <Link href='/'>
+                            <Link href='/crear-cuenta'>
                                 <Boton bgColor='true'>Crear Cuenta</Boton>
                             </Link>
                         </>
