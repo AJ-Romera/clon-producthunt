@@ -1,13 +1,22 @@
 import React from 'react';
+import { css, jsx } from '@emotion/react';
 import Layout from '../components/layout/Layout';
+import { Formulario, Campo, InputSubmit } from '../components/ui/Formulario';
 
 function CrearCuenta() {
     return (
         <Layout>
             <>
-                <h1>Crear Cuenta</h1>
-                <form>
-                    <div>
+                <h1
+                    css={css`
+                        text-align: center;
+                        margin-top: 5rem;
+                    `}
+                >
+                    Crear Cuenta
+                </h1>
+                <Formulario>
+                    <Campo>
                         <label htmlFor='nombre'>Nombre</label>
                         <input
                             type='text'
@@ -15,9 +24,9 @@ function CrearCuenta() {
                             placeholder='Tu Nombre'
                             name='nombre'
                         />
-                    </div>
+                    </Campo>
 
-                    <div>
+                    <Campo>
                         <label htmlFor='email'>Email</label>
                         <input
                             type='email'
@@ -25,9 +34,9 @@ function CrearCuenta() {
                             placeholder='Tu Email'
                             name='email'
                         />
-                    </div>
+                    </Campo>
 
-                    <div>
+                    <Campo>
                         <label htmlFor='password'>Password</label>
                         <input
                             type='password'
@@ -35,10 +44,10 @@ function CrearCuenta() {
                             placeholder='Tu Password'
                             name='password'
                         />
-                    </div>
+                    </Campo>
 
-                    <input type='submit' value='Crear Cuenta' />
-                </form>
+                    <InputSubmit type='submit' value='Crear Cuenta' />
+                </Formulario>
             </>
         </Layout>
     );
