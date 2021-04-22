@@ -12,11 +12,27 @@ function useValidacion(stateInicial, validar, fn) {
             if (noErrores) {
                 fn(); // Función que se ejecuta en el componente
             }
-            guardarSubmitForm(false);
+            setSubmitForm(false);
         }
     }, []);
 
-    return <div></div>;
+    // Función que se ejecuta conforme el usuario escribe algo
+    const handleChange = (e) => {
+        setValores({
+            ...valores,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    // Función que se ejecuta cuando el usuario hace submit
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const erroresValidacion = validar(valores);
+        setErrores(erroresValidacion);
+        setSubmitForm(true);
+    };
+
+    return errores, valores, submitForm, handleChange, handleSubmit;
 }
 
 export default useValidacion;
