@@ -1,5 +1,5 @@
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    apiKey: 'AIzaSyBRVoCVY7nIiX9_uNo7UngeHGR_TLvihww',
     authDomain: 'clon-phunt.firebaseapp.com',
     projectId: 'clon-phunt',
     storageBucket: 'clon-phunt.appspot.com',
