@@ -13,12 +13,12 @@ import firebase from '../firebase';
 
 // Validaciones
 import useValidacion from '../hooks/useValidacion';
-import validarCrearCuenta from '../validacion/validarCrearCuenta';
+import validarCrearProducto from '../validacion/validarCrearProducto';
 
 const STATE_INICIAL = {
     nombre: '',
     empresa: '',
-    imagen: '',
+    /* imagen: '', */
     url: '',
     descripcion: '',
 };
@@ -32,7 +32,7 @@ function NuevoProducto() {
         handleChange,
         handleSubmit,
         handleBlur,
-    } = useValidacion(STATE_INICIAL, validarCrearCuenta, crearCuenta);
+    } = useValidacion(STATE_INICIAL, validarCrearProducto, crearCuenta);
 
     const { nombre, empresa, imagen, url, descripcion } = valores;
 
@@ -84,7 +84,7 @@ function NuevoProducto() {
 
                         {errores.empresa && <Error>{errores.empresa}</Error>}
 
-                        <Campo>
+                        {/* <Campo>
                             <label htmlFor='imagen'>Imagen</label>
                             <input
                                 type='file'
@@ -97,7 +97,7 @@ function NuevoProducto() {
                             />
                         </Campo>
 
-                        {errores.imagen && <Error>{errores.imagen}</Error>}
+                        {errores.imagen && <Error>{errores.imagen}</Error>} */}
 
                         <Campo>
                             <label htmlFor='url'>URL</label>
@@ -105,7 +105,7 @@ function NuevoProducto() {
                                 type='url'
                                 autoComplete='url'
                                 id='url'
-                                placeholder='Tu Web'
+                                placeholder='Web del producto'
                                 name='url'
                                 value={url}
                                 onChange={handleChange}
