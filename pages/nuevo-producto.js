@@ -117,9 +117,9 @@ function NuevoProducto() {
                             <label htmlFor='nombre'>Nombre</label>
                             <input
                                 type='text'
-                                autoComplete='username'
+                                autoComplete='on'
                                 id='nombre'
-                                placeholder='Tu Nombre'
+                                placeholder='Nombre del Producto'
                                 name='nombre'
                                 value={nombre}
                                 onChange={handleChange}

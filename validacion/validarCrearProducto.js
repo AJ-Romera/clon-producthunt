@@ -1,7 +1,7 @@
 export default function validarCrearCuenta(valores) {
     let errores = {};
 
-    // Validar el nombre del usuario
+    // Validar el nombre del producto
     if (!valores.nombre) {
         errores.nombre = 'El nombre es obligatorio';
     }
