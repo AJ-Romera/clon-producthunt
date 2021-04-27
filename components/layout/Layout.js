@@ -1,12 +1,11 @@
 import React from 'react';
 import Header from './Header';
 import Head from 'next/head';
-import styles from '../../styles/Layout.module.css';
 
 function Layout(props) {
     return (
         <>
-            <div className={styles.container}>
+            <div>
                 <Head>
                     <html lang='es' />
                     <meta
