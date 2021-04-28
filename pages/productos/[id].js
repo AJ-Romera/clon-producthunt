@@ -10,6 +10,7 @@ import { es } from 'date-fns/locale';
 import Error404 from '../../components/layout/404';
 import Layout from '../../components/layout/Layout';
 import { Campo, InputSubmit } from '../../components/ui/Formulario';
+import Boton from '../../components/ui/Boton';
 
 import { FirebaseContext } from '../../firebase';
 
@@ -120,7 +121,13 @@ function Producto() {
                             ))}
                         </div>
 
-                        <aside>2</aside>
+                        <aside>
+                            <Boton target='_blank' href={url}>
+                                Visitar URL
+                            </Boton>
+
+                            <Boton bgColor='true'>&#9650; Votar {votos}</Boton>
+                        </aside>
                     </ContenedorProducto>
                 </div>
             </>
