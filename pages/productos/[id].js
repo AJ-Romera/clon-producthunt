@@ -26,6 +26,7 @@ function Producto() {
     // State del componente
     const [producto, setProducto] = useState({});
     const [error, setError] = useState(false);
+    const [comentario, setComentario] = useState({});
 
     // routing para obtener el id actual
     const router = useRouter();
@@ -98,6 +99,40 @@ function Producto() {
         });
     };
 
+    // Funciones para crear comentarios
+    const comentarioChange = (e) => {
+        setComentario({
+            ...comentario,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const agregarComentario = (e) => {
+        e.preventDefault();
+
+        if (!usuario) {
+            return router.push('/login');
+        }
+
+        // Información extra al comentario
+        comentario.usuarioId = usuario.uid;
+        comentario.usuarioNombre = usuario.displayName;
+
+        // Tomar copia de comentarios y agregarlos al arreglo
+        const nuevosComentarios = [...comentarios, comentario];
+
+        // Actualizar la BD
+        firebase.db.collection('productos').doc(id).update({
+            comentarios: nuevosComentarios,
+        });
+
+        // Actualizar el state
+        setProducto({
+            ...producto,
+            comentarios: nuevosComentarios,
+        });
+    };
+
     return (
         <Layout>
             <>
@@ -128,9 +163,13 @@ function Producto() {
                             {usuario && (
                                 <>
                                     <h2>Agrega tu comentario</h2>
-                                    <form>
+                                    <form onSubmit={agregarComentario}>
                                         <Campo>
-                                            <input type='text' name='mensaje' />
+                                            <input
+                                                type='text'
+                                                name='mensaje'
+                                                onChange={comentarioChange}
+                                            />
                                         </Campo>
                                         <InputSubmit
                                             type='submit'
@@ -148,14 +187,34 @@ function Producto() {
                                 Comentarios
                             </h2>
 
-                            {comentarios.map((comentario) => (
-                                <li>
-                                    <p>{comentario.nombre}</p>
-                                    <p>
-                                        Escrito por: {comentario.usuarioNombre}
-                                    </p>
-                                </li>
-                            ))}
+                            {comentarios.length === 0 ? (
+                                'No hay comentarios aún'
+                            ) : (
+                                <ul>
+                                    {comentarios.map((comentario, i) => (
+                                        <li
+                                            key={`${comentario.usuarioId}-${i}`}
+                                            css={css`
+                                                border: 1px solid --gris3;
+                                                padding: 2rem;
+                                            `}
+                                        >
+                                            <p>{comentario.mensaje}</p>
+                                            <p>
+                                                Escrito por:
+                                                <span
+                                                    css={css`
+                                                        font-weight: bold;
+                                                    `}
+                                                >
+                                                    {' '}
+                                                    {comentario.usuarioNombre}
+                                                </span>
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
 
                         <aside>

@@ -122,6 +122,8 @@ function DetallesProducto({ producto }) {
                                     No hay comentarios,
                                     <br /> sé el primero en comentar
                                 </p>
+                            ) : comentarios.length === 1 ? (
+                                <p>{comentarios.length} comentario</p>
                             ) : (
                                 <p>{comentarios.length} comentarios</p>
                             )}
