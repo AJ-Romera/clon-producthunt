@@ -9,8 +9,8 @@ function Error404() {
                 text-align: center;
             `}
         >
-            El producto al que usted trata de acceder no existe o ha sido
-            borrado.
+            La página a la que usted trata de acceder no existe, ha sido borrada
+            o necesita loguearse.
         </h1>
     );
 }

@@ -9,6 +9,7 @@ import {
     InputSubmit,
     Error,
 } from '../components/ui/Formulario';
+import Error404 from '../components/layout/404';
 
 import { FirebaseContext } from '../firebase';
 
@@ -105,108 +106,116 @@ function NuevoProducto() {
 
     return (
         <Layout>
-            <>
-                <h1
-                    css={css`
-                        text-align: center;
-                        margin-top: 5rem;
-                    `}
-                >
-                    Nuevo Producto
-                </h1>
-                <Formulario onSubmit={handleSubmit} noValidate>
-                    <fieldset>
-                        <legend>Información General</legend>
-                        <Campo>
-                            <label htmlFor='nombre'>Nombre</label>
-                            <input
-                                type='text'
-                                autoComplete='on'
-                                id='nombre'
-                                placeholder='Nombre del Producto'
-                                name='nombre'
-                                value={nombre}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                        </Campo>
+            {!usuario ? (
+                <Error404 />
+            ) : (
+                <>
+                    <h1
+                        css={css`
+                            text-align: center;
+                            margin-top: 5rem;
+                        `}
+                    >
+                        Nuevo Producto
+                    </h1>
+                    <Formulario onSubmit={handleSubmit} noValidate>
+                        <fieldset>
+                            <legend>Información General</legend>
+                            <Campo>
+                                <label htmlFor='nombre'>Nombre</label>
+                                <input
+                                    type='text'
+                                    autoComplete='on'
+                                    id='nombre'
+                                    placeholder='Nombre del Producto'
+                                    name='nombre'
+                                    value={nombre}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Campo>
 
-                        {errores.nombre && <Error>{errores.nombre}</Error>}
+                            {errores.nombre && <Error>{errores.nombre}</Error>}
 
-                        <Campo>
-                            <label htmlFor='empresa'>Empresa</label>
-                            <input
-                                type='text'
-                                autoComplete='organization'
-                                id='empresa'
-                                placeholder='Nombre de la Empresa'
-                                name='empresa'
-                                value={empresa}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                        </Campo>
+                            <Campo>
+                                <label htmlFor='empresa'>Empresa</label>
+                                <input
+                                    type='text'
+                                    autoComplete='organization'
+                                    id='empresa'
+                                    placeholder='Nombre de la Empresa'
+                                    name='empresa'
+                                    value={empresa}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Campo>
 
-                        {errores.empresa && <Error>{errores.empresa}</Error>}
+                            {errores.empresa && (
+                                <Error>{errores.empresa}</Error>
+                            )}
 
-                        <Campo>
-                            <label htmlFor='imagen'>Imagen</label>
-                            <FileUploader
-                                accept='image/*'
-                                autoComplete='photo'
-                                id='imagen'
-                                name='imagen'
-                                randomizeFilename
-                                storageRef={firebase.storage.ref('productos')}
-                                onUploadStart={handleUploadStart}
-                                onUploadError={handleUploadError}
-                                onUploadSuccess={handleUploadSuccess}
-                                onProgress={handleProgress}
-                            />
-                        </Campo>
+                            <Campo>
+                                <label htmlFor='imagen'>Imagen</label>
+                                <FileUploader
+                                    accept='image/*'
+                                    autoComplete='photo'
+                                    id='imagen'
+                                    name='imagen'
+                                    randomizeFilename
+                                    storageRef={firebase.storage.ref(
+                                        'productos'
+                                    )}
+                                    onUploadStart={handleUploadStart}
+                                    onUploadError={handleUploadError}
+                                    onUploadSuccess={handleUploadSuccess}
+                                    onProgress={handleProgress}
+                                />
+                            </Campo>
 
-                        <Campo>
-                            <label htmlFor='url'>URL</label>
-                            <input
-                                type='url'
-                                autoComplete='url'
-                                id='url'
-                                placeholder='Web del producto'
-                                name='url'
-                                value={url}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                        </Campo>
+                            <Campo>
+                                <label htmlFor='url'>URL</label>
+                                <input
+                                    type='url'
+                                    autoComplete='url'
+                                    id='url'
+                                    placeholder='Web del producto'
+                                    name='url'
+                                    value={url}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Campo>
 
-                        {errores.url && <Error>{errores.url}</Error>}
-                    </fieldset>
+                            {errores.url && <Error>{errores.url}</Error>}
+                        </fieldset>
 
-                    <fieldset>
-                        <legend>Sobre tu Producto</legend>
-                        <Campo>
-                            <label htmlFor='descripcion'>Descripción</label>
-                            <textarea
-                                autoComplete='off'
-                                id='descripcion'
-                                placeholder='Descripción del Producto'
-                                name='descripcion'
-                                value={descripcion}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                        </Campo>
+                        <fieldset>
+                            <legend>Sobre tu Producto</legend>
+                            <Campo>
+                                <label htmlFor='descripcion'>Descripción</label>
+                                <textarea
+                                    autoComplete='off'
+                                    id='descripcion'
+                                    placeholder='Descripción del Producto'
+                                    name='descripcion'
+                                    value={descripcion}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            </Campo>
 
-                        {errores.descripcion && (
-                            <Error>{errores.descripcion}</Error>
-                        )}
+                            {errores.descripcion && (
+                                <Error>{errores.descripcion}</Error>
+                            )}
 
-                        {error && <Error>{error}</Error>}
-                    </fieldset>
+                            {error && <Error>{error}</Error>}
+                        </fieldset>
 
-                    <InputSubmit type='submit' value='Crear Producto' />
-                </Formulario>
-            </>
+                        <InputSubmit type='submit' value='Crear Producto' />
+                    </Formulario>
+                </>
+            )}
         </Layout>
     );
 }

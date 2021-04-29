@@ -34,7 +34,7 @@ function Producto() {
     } = router;
 
     // Context de firebase
-    const { firebase } = useContext(FirebaseContext);
+    const { firebase, usuario } = useContext(FirebaseContext);
 
     useEffect(() => {
         if (id) {
@@ -94,16 +94,20 @@ function Producto() {
                             <img src={urlImagen} alt={`Imagen de ${nombre}`} />
                             <p>{descripcion}</p>
 
-                            <h2>Agrega tu comentario</h2>
-                            <form>
-                                <Campo>
-                                    <input type='text' name='mensaje' />
-                                </Campo>
-                                <InputSubmit
-                                    type='submit'
-                                    value='Agregar Comentario'
-                                />
-                            </form>
+                            {usuario && (
+                                <>
+                                    <h2>Agrega tu comentario</h2>
+                                    <form>
+                                        <Campo>
+                                            <input type='text' name='mensaje' />
+                                        </Campo>
+                                        <InputSubmit
+                                            type='submit'
+                                            value='Agregar Comentario'
+                                        />
+                                    </form>
+                                </>
+                            )}
 
                             <h2
                                 css={css`
@@ -128,7 +132,11 @@ function Producto() {
                                 Visitar URL
                             </Boton>
 
-                            <Boton bgColor='true'>&#9650; Votar {votos}</Boton>
+                            {usuario && (
+                                <Boton bgColor='true'>
+                                    &#9650; Votar {votos}
+                                </Boton>
+                            )}
                         </aside>
                     </ContenedorProducto>
                 </div>
