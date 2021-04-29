@@ -64,6 +64,7 @@ function Producto() {
         url,
         urlImagen,
         votos,
+        creador,
     } = producto;
 
     return (
@@ -84,10 +85,11 @@ function Producto() {
                     <ContenedorProducto>
                         <div>
                             <p>
-                                Publicado hace:{' '}
+                                Publicado hace{' '}
                                 {formatDistanceToNow(new Date(creado), {
                                     locale: es,
-                                })}
+                                })}{' '}
+                                por {creador.nombre} de {empresa}
                             </p>
                             <img src={urlImagen} alt={`Imagen de ${nombre}`} />
                             <p>{descripcion}</p>
