@@ -70,6 +70,7 @@ function NuevoProducto() {
                 id: usuario.uid,
                 nombre: usuario.displayName,
             },
+            haVotado: [],
         };
 
         // Insertarlo en la base de datos

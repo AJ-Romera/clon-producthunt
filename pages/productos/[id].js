@@ -51,7 +51,7 @@ function Producto() {
             };
             obtenerProducto();
         }
-    }, [id]);
+    }, [id, producto]);
 
     if (Object.keys(producto).length === 0) return 'Cargando...';
 
@@ -65,6 +65,7 @@ function Producto() {
         urlImagen,
         votos,
         creador,
+        haVotado,
     } = producto;
 
     // Administrar y validar los votos
@@ -76,11 +77,19 @@ function Producto() {
         // Obtener y sumar un nuevo voto
         const nuevoTotal = votos + 1;
 
+        // Verificar si el usuario actual ha votado (evita votos duplicados, el voto debe ser único)
+        if (haVotado.includes(usuario.uid)) {
+            return;
+        }
+
+        // Guardar ID del usuario que ha votado
+        const nuevoHaVotado = [...haVotado, usuario.uid];
+
         // Actualizar en la BD
         firebase.db
             .collection('productos')
             .doc(id)
-            .update({ votos: nuevoTotal });
+            .update({ votos: nuevoTotal, haVotado: nuevoHaVotado });
 
         // Actualizar el state
         setProducto({
