@@ -1,11 +1,20 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
+import { useRouter } from 'next/router';
 
 function Buscar() {
+    const router = useRouter();
+    const {
+        query: { q },
+    } = router;
+    console.log(q);
+
     return (
-        <Layout>
-            <h1>Buscar</h1>
-        </Layout>
+        <div>
+            <Layout>
+                <h1>Buscar</h1>
+            </Layout>
+        </div>
     );
 }
 
