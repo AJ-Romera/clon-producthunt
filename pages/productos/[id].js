@@ -177,13 +177,6 @@ function Producto() {
 
                         <ContenedorProducto>
                             <div>
-                                <p>
-                                    Publicado hace{' '}
-                                    {formatDistanceToNow(new Date(creado), {
-                                        locale: es,
-                                    })}{' '}
-                                    por {creador.nombre} de {empresa}
-                                </p>
                                 <img
                                     src={urlImagen}
                                     alt={`Imagen de ${nombre}`}
@@ -270,6 +263,14 @@ function Producto() {
                                         &#9650; Votar {votos}
                                     </Boton>
                                 )}
+
+                                <p>
+                                    Publicado hace{' '}
+                                    {formatDistanceToNow(new Date(creado), {
+                                        locale: es,
+                                    })}{' '}
+                                    por {creador.nombre} de {empresa}
+                                </p>
                             </aside>
                         </ContenedorProducto>
                     </div>
