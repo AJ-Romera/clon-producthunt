@@ -302,7 +302,7 @@ function Producto() {
                         </ContenedorProducto>
 
                         {puedeBorrar() && (
-                            <Boton onClick={eliminarProducto}>
+                            <Boton onClick={eliminarProducto} bgColor='true'>
                                 Eliminar Producto
                             </Boton>
                         )}
