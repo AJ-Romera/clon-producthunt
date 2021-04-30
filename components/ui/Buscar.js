@@ -10,15 +10,15 @@ const InputText = styled.input`
 `;
 
 const InputSubmit = styled.button`
-    height: 3rem;
-    width: 3rem;
+    height: 3.6rem;
+    width: 4rem;
     display: block;
     background-size: 4rem;
     background-image: url('/static/img/buscar.png');
     background-repeat: no-repeat;
     position: absolute;
-    right: 1rem;
-    top: 1px;
+    right: 0.2rem;
+    top: 0.2rem;
     background-color: white;
     border: none;
     text-indent: -9999px;
