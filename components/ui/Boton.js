@@ -10,7 +10,7 @@ const Boton = styled.a`
     text-align: center;
     background-color: ${(props) => (props.bgColor ? '#DA552F' : 'white')};
     color: ${(props) => (props.bgColor ? 'white' : '#000')};
-    border-color: ${(props) => (props.bgColor ? 'red' : '--gris3')};
+    border-color: ${(props) => (props.bgColor ? 'red' : 'var(--gris3)')};
     box-shadow: ${(props) =>
         props.bgColor ? '0 2px 1px 0 rgb(0 0 0 / 20%)' : 'none'};
 

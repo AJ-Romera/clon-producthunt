@@ -24,7 +24,7 @@ const ContenedorProducto = styled.div`
 
 const CreadorProducto = styled.p`
     padding: 0.5rem 2rem;
-    background-color: --naranja;
+    background-color: var(--naranja);
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
@@ -37,6 +37,7 @@ function Producto() {
     const [producto, setProducto] = useState({});
     const [error, setError] = useState(false);
     const [comentario, setComentario] = useState({});
+    const [consultarDB, setConsultarDB] = useState(true);
 
     // routing para obtener el id actual
     const router = useRouter();
@@ -48,7 +49,7 @@ function Producto() {
     const { firebase, usuario } = useContext(FirebaseContext);
 
     useEffect(() => {
-        if (id) {
+        if (id && consultarDB) {
             const obtenerProducto = async () => {
                 const productoQuery = await firebase.db
                     .collection('productos')
@@ -56,15 +57,17 @@ function Producto() {
                 const producto = await productoQuery.get();
                 if (producto.exists) {
                     setProducto(producto.data());
+                    setConsultarDB(false);
                 } else {
                     setError(true);
+                    setConsultarDB(false);
                 }
             };
             obtenerProducto();
         }
-    }, [id, producto]);
+    }, [id]);
 
-    if (Object.keys(producto).length === 0) return 'Cargando...';
+    if (Object.keys(producto).length === 0 && !error) return 'Cargando...';
 
     const {
         comentarios,
@@ -107,6 +110,9 @@ function Producto() {
             ...producto,
             votos: nuevoTotal,
         });
+
+        // Hay un voto, consulta la DB
+        setConsultarDB(true);
     };
 
     // Funciones para crear comentarios
@@ -148,112 +154,126 @@ function Producto() {
             ...producto,
             comentarios: nuevosComentarios,
         });
+
+        // Hay un comentario, consulta la DB
+        setConsultarDB(true);
     };
 
     return (
         <Layout>
             <>
-                {error && <Error404 />}
+                {error ? (
+                    <Error404 />
+                ) : (
+                    <div className='contenedor'>
+                        <h1
+                            css={css`
+                                margin-top: 5rem;
+                                text-align: center;
+                            `}
+                        >
+                            {nombre}
+                        </h1>
 
-                <div className='contenedor'>
-                    <h1
-                        css={css`
-                            margin-top: 5rem;
-                            text-align: center;
-                        `}
-                    >
-                        {nombre}
-                    </h1>
+                        <ContenedorProducto>
+                            <div>
+                                <p>
+                                    Publicado hace{' '}
+                                    {formatDistanceToNow(new Date(creado), {
+                                        locale: es,
+                                    })}{' '}
+                                    por {creador.nombre} de {empresa}
+                                </p>
+                                <img
+                                    src={urlImagen}
+                                    alt={`Imagen de ${nombre}`}
+                                />
+                                <p>{descripcion}</p>
 
-                    <ContenedorProducto>
-                        <div>
-                            <p>
-                                Publicado hace{' '}
-                                {formatDistanceToNow(new Date(creado), {
-                                    locale: es,
-                                })}{' '}
-                                por {creador.nombre} de {empresa}
-                            </p>
-                            <img src={urlImagen} alt={`Imagen de ${nombre}`} />
-                            <p>{descripcion}</p>
-
-                            {usuario && (
-                                <>
-                                    <h2>Agrega tu comentario</h2>
-                                    <form onSubmit={agregarComentario}>
-                                        <Campo>
-                                            <input
-                                                type='text'
-                                                name='mensaje'
-                                                onChange={comentarioChange}
+                                {usuario && (
+                                    <>
+                                        <h2>Agrega tu comentario</h2>
+                                        <form onSubmit={agregarComentario}>
+                                            <Campo>
+                                                <input
+                                                    type='text'
+                                                    name='mensaje'
+                                                    onChange={comentarioChange}
+                                                />
+                                            </Campo>
+                                            <InputSubmit
+                                                type='submit'
+                                                value='Agregar Comentario'
                                             />
-                                        </Campo>
-                                        <InputSubmit
-                                            type='submit'
-                                            value='Agregar Comentario'
-                                        />
-                                    </form>
-                                </>
-                            )}
+                                        </form>
+                                    </>
+                                )}
 
-                            <h2
-                                css={css`
-                                    margin: 2rem 0;
-                                `}
-                            >
-                                Comentarios
-                            </h2>
+                                <h2
+                                    css={css`
+                                        margin: 2rem 0;
+                                    `}
+                                >
+                                    Comentarios
+                                </h2>
 
-                            {comentarios.length === 0 ? (
-                                'No hay comentarios aún'
-                            ) : (
-                                <ul>
-                                    {comentarios.map((comentario, i) => (
-                                        <li
-                                            key={`${comentario.usuarioId}-${i}`}
-                                            css={css`
-                                                border: 1px solid --gris3;
-                                                padding: 2rem;
-                                            `}
-                                        >
-                                            <p>{comentario.mensaje}</p>
-                                            <p>
-                                                Escrito por:
-                                                <span
-                                                    css={css`
-                                                        font-weight: bold;
-                                                    `}
-                                                >
-                                                    {' '}
-                                                    {comentario.usuarioNombre}
-                                                </span>
-                                            </p>
-                                            {esCreador(
-                                                comentario.usuarioId
-                                            ) && (
-                                                <CreadorProducto>
-                                                    Creador del Producto
-                                                </CreadorProducto>
-                                            )}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+                                {comentarios.length === 0 ? (
+                                    'No hay comentarios aún'
+                                ) : (
+                                    <ul>
+                                        {comentarios.map((comentario, i) => (
+                                            <li
+                                                key={`${comentario.usuarioId}-${i}`}
+                                                css={css`
+                                                    border: 1px solid
+                                                        var(--gris3);
+                                                    padding: 2rem;
+                                                `}
+                                            >
+                                                <p>{comentario.mensaje}</p>
+                                                <p>
+                                                    Escrito por:
+                                                    <span
+                                                        css={css`
+                                                            font-weight: bold;
+                                                        `}
+                                                    >
+                                                        {' '}
+                                                        {
+                                                            comentario.usuarioNombre
+                                                        }
+                                                    </span>
+                                                </p>
+                                                {esCreador(
+                                                    comentario.usuarioId
+                                                ) && (
+                                                    <CreadorProducto>
+                                                        Creador del Producto
+                                                    </CreadorProducto>
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
 
-                        <aside>
-                            <Boton target='_blank' href={url}>
-                                Visitar URL
-                            </Boton>
-
-                            {usuario && (
-                                <Boton bgColor='true' onClick={votarProducto}>
-                                    &#9650; Votar {votos}
+                            <aside>
+                                <Boton target='_blank' href={url}>
+                                    Visitar URL
                                 </Boton>
-                            )}
-                        </aside>
-                    </ContenedorProducto>
-                </div>
+
+                                {usuario && (
+                                    <Boton
+                                        bgColor='true'
+                                        onClick={votarProducto}
+                                    >
+                                        &#9650; Votar {votos}
+                                    </Boton>
+                                )}
+                            </aside>
+                        </ContenedorProducto>
+                    </div>
+                )}
             </>
         </Layout>
     );
